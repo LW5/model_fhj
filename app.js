@@ -13,6 +13,8 @@ var yonghuRouter = require('./routes/yonghu');
 var shopRouter = require('./routes/shop');
 // var filesRouter = require('./routes/files');
 var imgsRouter = require('./routes/imgs');
+//服务管理
+var goodsRouter = require('./routes/goods');
 
 // 食品添加
 var foodsRouter = require('./routes/foods');
@@ -45,6 +47,9 @@ app.use('/yonghu', yonghuRouter);
 app.use('/shop',shopRouter);
 app.use('/files',filesRouter);
 app.use('/imgs',imgsRouter);
+
+// 服务管理
+app.use('/goods', goodsRouter);
 // 食品添加
 app.use('/foods', foodsRouter);
 // 用品
