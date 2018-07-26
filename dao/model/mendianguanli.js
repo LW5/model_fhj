@@ -31,7 +31,6 @@ const MendianguanliSchema = new mongoose.Schema({
 		type: Schema.Types.ObjectId,
 		ref: 'user'
   }
- 
 })
 
 mongoose.model("mendianguanli", MendianguanliSchema, "mendianguanli")

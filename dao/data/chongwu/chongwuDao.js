@@ -2,7 +2,6 @@ const mongoose = require("mongoose")
 
 //平台
 module.exports.getChongwuAll= async(getChongwuAll1)=>{
-      console.log(getChongwuAll1)
       const { eachPage,curPage } = getChongwuAll1
       const count = await mongoose
       .model("chongwuguanli")
@@ -25,10 +24,12 @@ module.exports.getChongwuAll= async(getChongwuAll1)=>{
 }
 //增加宠物
 module.exports.chongwu = async (chongwu1) => {
-      const { mendianGliId } = chongwu1
+  console.log(chongwu1)
+      const { mendianGliId, userId} = chongwu1
        const data1 = await mongoose
       .model("chongwuguanli")
       .create(chongwu1)
+      //门店和宠物关联
       const { _id:id_cw} = data1
          await mongoose
             .model("mendianguanli")
@@ -39,7 +40,7 @@ module.exports.chongwu = async (chongwu1) => {
                 chongwuguanliId: id_cw
               } 
             })  
-
+          //宠物和门店关联
            const data2 =  await mongoose
             .model("chongwuguanli")
             .update({
@@ -49,6 +50,16 @@ module.exports.chongwu = async (chongwu1) => {
                 mendianguanliId: mendianGliId
               } 
             })  
+          //宠物和店主关联
+           await mongoose
+          .model("user")
+          .update({
+            _id:userId
+          },{
+            $push: {
+              chognwuguanliId: id_cw
+            } 
+          })  
             // .update({{}，
             //   $push: {
             //     mendianguanliId: mendianGliId
@@ -61,18 +72,20 @@ module.exports.chongwu = async (chongwu1) => {
             .populate({
               path: "chongwuguanliId"
             })
+
+            // console.log(data)
             return data
 }
 
 //查询宠物
 module.exports.getChongwu = async (getChongwu1) => {
-
-        console.log(getChongwu1)
         const { _id:mendianId,eachPage,curPage } = getChongwu1
+       
             const data = (await mongoose
               .model("mendianguanli")
               .find({_id:mendianId}))[0]
               .chongwuguanliId
+
               const count = await mongoose
               .model("chongwuguanli")
               .find({_id:data}) 
@@ -84,6 +97,9 @@ module.exports.getChongwu = async (getChongwu1) => {
               .limit(eachPage)
               .exec()
 
+              // console.log(data)
+              // console.log(getChongwu1)
+              // console.log(chongwuguanli)
               // console.log(data1)
               // const { chongwuguanliId }  = data[0]
               // console.log(chongwuguanliId)

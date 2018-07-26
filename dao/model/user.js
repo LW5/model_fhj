@@ -22,6 +22,10 @@ const UsersSchema = new mongoose.Schema({
   dianyuanguanliId: [{
 		type: Schema.Types.ObjectId,
 		ref: 'dianyuanguanli'
+  }],
+  chognwuguanliId: [{
+		type: Schema.Types.ObjectId,
+		ref: 'chongwuguanli'
   }]
 })
 

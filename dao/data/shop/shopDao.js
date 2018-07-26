@@ -1,33 +1,49 @@
 const mongoose = require("mongoose")
-const {unlink} = require("fs")
+const { unlink } = require("fs")
 
 //增加用户管理
 module.exports.addshop = async (mendianguanli) => {
-    // console.log(mendianguanli)
-    const {imgsId } = mendianguanli
+    const {imgsId,userId } = mendianguanli
     // console.log(imgsId)
-    const {_id} = await mongoose
+    const {_id:mendianId} = await mongoose
    
      .model("mendianguanli")
      .create(mendianguanli)
     //  console.log(_id)
+
+    //绑定img
      await mongoose
      .model("mendianguanli")
-     .sort({
-        _id: -1
-      })
      .update({
-        _id:_id
+        _id:mendianId
      },{
          $push:{
-            imgsId:imgsId
+            imgsId:imgsId,
          }
      })
-    //  console.log(data1)
+   //门店和店主绑定
+   await mongoose
+   .model("user")
+   .update({
+     _id:userId
+   },{
+     $push: {
+        mendianguanliId:mendianId
+     } 
+   })  
+//门店和店主绑定
+    await mongoose
+    .model("mendianguanli")
+    .update({
+    _id:mendianId
+    },{
+        $push:{
+             userId:userId,
+        }
+    })
    return true
 }
 module.exports.getshop = async (mendianguanli) => {
-   
    const data = await mongoose
    .model("mendianguanli")
    .find(mendianguanli) 
@@ -74,23 +90,31 @@ module.exports.delshop = async ({id}) => {
     })
     
  }
- module.exports.getShopByPage = async ({currentPage,eachpage}) => {
-    const  shopModle = mongoose.model("mendianguanli")
-    const count = await shopModle.count()
-    const rows = await shopModle
-      .find()
-      .sort({
-        _id: -1
-      })
-      .skip((currentPage - 1) * eachpage)
-      .limit(eachpage)
-      .exec()
-  
+ module.exports.getShopByPage = async ({currentPage,eachpage,_id}) => {
+     let rows =[],count=0
+     const data = await mongoose
+                    .model("user")
+                    .find({_id})
+              if(data[0].mendianguanliId){
+                  console.log("in")
+                const  shopModle = mongoose.model("mendianguanli")
+                 rows = await shopModle
+                  .find({_id:data[0].mendianguanliId})
+                  .sort({
+                    _id: -1
+                  })
+                  .skip((currentPage - 1) * eachpage)
+                  .limit(eachpage)
+                  .exec()
+                  count = rows.length
+              }
+      
+
     return {
         currentPage,
         eachpage,
-      count,
-      maxPage: Math.ceil(count / eachpage),
-      rows
+        count,
+        maxPage: Math.ceil(count / eachpage),
+        rows
     }
  }
