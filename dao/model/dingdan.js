@@ -21,7 +21,26 @@ const DingdanSchema = new mongoose.Schema({
   fkstate:{
     type:String,
     default:"0"
+  },
+  name:{
+    type:String
+  },
+  id:{
+    type:String
+  },
+  address:{
+    type:String
+  },
+  address1:{
+    type:String
+  },
+  date:{
+    type:String
+  },
+  shop:{
+    type:String
   }
+
 })
 
 mongoose.model("dingdan", DingdanSchema, "dingdan")

@@ -20,8 +20,8 @@ var foodsRouter = require('./routes/foods');
 var articalRouter = require('./routes/artical');
 //  图片
 var filesRouter = require('./routes/files');
-
-
+// 订单
+var dingdanRouter = require('./routes/dingdan');
 
 require("./dao/database")
 var app = express();
@@ -49,6 +49,8 @@ app.use('/imgs',imgsRouter);
 app.use('/foods', foodsRouter);
 // 用品
 app.use('/artical', articalRouter);
+// 订单
+app.use('/dingdan', dingdanRouter);
 // 图片上传
 // app.use('/files', filesRouter);
 
