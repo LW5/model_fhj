@@ -11,6 +11,15 @@ var chongzhuRouter = require('./routes/chongzhu');
 var yonghuRouter = require('./routes/yonghu');
 
 
+// 食品添加
+var foodsRouter = require('./routes/foods');
+// 用品
+var articalRouter = require('./routes/artical');
+//  图片
+var filesRouter = require('./routes/files');
+
+
+
 require("./dao/database")
 var app = express();
 
@@ -29,6 +38,13 @@ app.use('/users', usersRouter);
 app.use('/chongwu', chongwuRouter);
 app.use('/chongzhu', chongzhuRouter);
 app.use('/yonghu', yonghuRouter);
+
+// 食品添加
+app.use('/foods', foodsRouter);
+// 用品
+app.use('/artical', articalRouter);
+// 图片上传
+app.use('/files', filesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
