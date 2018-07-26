@@ -9,7 +9,10 @@ var usersRouter = require('./routes/users');
 var chongwuRouter = require('./routes/chongwu');
 var chongzhuRouter = require('./routes/chongzhu');
 var yonghuRouter = require('./routes/yonghu');
-
+//门店管理
+var shopRouter = require('./routes/shop');
+// var filesRouter = require('./routes/files');
+var imgsRouter = require('./routes/imgs');
 
 // 食品添加
 var foodsRouter = require('./routes/foods');
@@ -39,12 +42,15 @@ app.use('/chongwu', chongwuRouter);
 app.use('/chongzhu', chongzhuRouter);
 app.use('/yonghu', yonghuRouter);
 
+app.use('/shop',shopRouter);
+app.use('/files',filesRouter);
+app.use('/imgs',imgsRouter);
 // 食品添加
 app.use('/foods', foodsRouter);
 // 用品
 app.use('/artical', articalRouter);
 // 图片上传
-app.use('/files', filesRouter);
+// app.use('/files', filesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

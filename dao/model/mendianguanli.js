@@ -23,10 +23,15 @@ const MendianguanliSchema = new mongoose.Schema({
 		type: Schema.Types.ObjectId,
 		ref: 'chongwuguanli'
   }],
+  imgsId: [{
+		type: Schema.Types.ObjectId,
+		ref: 'imgs'
+  }],
   userId: {
 		type: Schema.Types.ObjectId,
 		ref: 'user'
   }
+ 
 })
 
 mongoose.model("mendianguanli", MendianguanliSchema, "mendianguanli")
